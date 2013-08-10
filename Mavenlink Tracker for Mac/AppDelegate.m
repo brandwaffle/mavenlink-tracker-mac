@@ -23,9 +23,15 @@ BOOL started=TRUE;
                                     initWithURL:url];
     
     [request setValue:@"%%%%ACCESS TOKEN GOES HERE FOR NOW%%%%%%%" forHTTPHeaderField:@"Authorization"];
-    NSLog(@"API Result: %@", request);
+
     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-        NSLog(@"IP Address: %@", [JSON valueForKeyPath:@"workspaces"]);
+        NSDictionary *workspaces = [JSON valueForKeyPath:@"workspaces"];
+
+        NSString *key;
+        for(key in workspaces){
+            NSDictionary *workspace = [workspaces objectForKey: key];
+            [_project setStringValue: [NSString stringWithFormat: @"%@ %@\n", [_project stringValue], [workspace valueForKey:@"title"]]];
+        }
     } failure:nil];
     
     [operation start];

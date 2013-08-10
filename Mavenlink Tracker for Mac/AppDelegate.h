@@ -16,5 +16,6 @@
 - (IBAction)push_start:(id)sender;
 - (IBAction)push_reset:(id)sender;
 - (void) tick:(id)sender;
+@property (weak) IBOutlet NSTextField *project;
 
 @end
