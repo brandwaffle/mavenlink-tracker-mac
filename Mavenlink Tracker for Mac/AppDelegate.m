@@ -7,6 +7,9 @@
 //
 
 #import "AppDelegate.h"
+#import "AFJSONRequestOperation.h"
+
+
 int second=0;
 int minute=0;
 BOOL started=TRUE;
@@ -15,7 +18,14 @@ BOOL started=TRUE;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    // Insert code here to initialize your application
+    NSURL *url = [NSURL URLWithString:@"http://httpbin.org/ip"];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    
+    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+        NSLog(@"IP Address: %@", [JSON valueForKeyPath:@"origin"]);
+    } failure:nil];
+    
+    [operation start];
 }
 
 - (IBAction)push_start:(id)sender {
@@ -60,4 +70,5 @@ BOOL started=TRUE;
         
     }
 }
+
 @end
