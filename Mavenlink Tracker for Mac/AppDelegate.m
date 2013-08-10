@@ -18,11 +18,14 @@ BOOL started=TRUE;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    NSURL *url = [NSURL URLWithString:@"http://httpbin.org/ip"];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSURL *url = [NSURL URLWithString:@"https://api.mavenlink.com/api/v1/workspaces.json"];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
+                                    initWithURL:url];
     
+    [request setValue:@"%%%%ACCESS TOKEN GOES HERE FOR NOW%%%%%%%" forHTTPHeaderField:@"Authorization"];
+    NSLog(@"API Result: %@", request);
     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-        NSLog(@"IP Address: %@", [JSON valueForKeyPath:@"origin"]);
+        NSLog(@"IP Address: %@", [JSON valueForKeyPath:@"workspaces"]);
     } failure:nil];
     
     [operation start];
